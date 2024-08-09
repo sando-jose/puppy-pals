@@ -1,35 +1,41 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { puppyList } from "./data.js";
+import React, { useState } from "react";
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
+const Listpups = () => {
+  const [selectedPuppy, setSelectedPuppy] = useState(null);
+
+  const handleClick = (puppy) => {
+    setSelectedPuppy(puppy);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="container">
+      <h1>Puppy List</h1>
+      <ul>
+        {puppyList.map((puppy) => (
+          <li key={puppy.id} onClick={() => handleClick(puppy)}>
+            {puppy.name}
+          </li>
+        ))}
+      </ul>
+      {selectedPuppy && (
+        <div className="selected-puppy">
+          <h1>{selectedPuppy.name}</h1>
+          <p>Age: {selectedPuppy.age}</p>
+          <p>Breed: {selectedPuppy.breed}</p>
+          <p>Email: {selectedPuppy.email}</p>
+          <p>Is Cute: {selectedPuppy.isCute ? "Yes" : "No"}</p>
+          <h2>Tricks:</h2>
+          <ul>
+            {selectedPuppy.tricks.map((trick) => (
+              <li key={trick.id}>{trick.title}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
-}
+};
 
-export default App;
+export default Listpups;
